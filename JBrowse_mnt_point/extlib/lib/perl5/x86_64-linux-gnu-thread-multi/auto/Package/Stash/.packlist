@@ -1,0 +1,6 @@
+/var/www/JBrowse-1.9.7/extlib/bin/package-stash-conflicts
+/var/www/JBrowse-1.9.7/extlib/lib/perl5/Package/Stash.pm
+/var/www/JBrowse-1.9.7/extlib/lib/perl5/Package/Stash/Conflicts.pm
+/var/www/JBrowse-1.9.7/extlib/lib/perl5/Package/Stash/PP.pm
+/var/www/JBrowse-1.9.7/extlib/man/man3/Package::Stash.3pm
+/var/www/JBrowse-1.9.7/extlib/man/man3/Package::Stash::PP.3pm
