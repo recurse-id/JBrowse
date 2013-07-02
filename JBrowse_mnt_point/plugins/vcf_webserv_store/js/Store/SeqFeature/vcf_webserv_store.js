@@ -1,1 +1,0 @@
-/home/urvish/JBrowse_webserv/vcf_webserv_store.js
