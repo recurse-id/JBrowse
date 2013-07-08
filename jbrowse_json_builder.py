@@ -5,12 +5,14 @@ import json
 sys.path.append(os.path.join(os.path.dirname(__file__), "../psql"))
 import vcf_lib
 import vcf_psql
+import random
+import string
 
 
 def generate_cosmic_description(mutation_id, mutation_aa, count):
     result= []
     html_link = "<a href= http://cancer.sanger.ac.uk/cosmic/mutation/overview?id=%s> %s </a>" % (mutation_id, mutation_id)
-    return html_link + '_'+ mutation_aa+ "_" + "(" + count + ")"
+    return html_link + '_'+ mutation_aa+ "_" + "(" + str(count) + ")"
 
 
 def vcf_json(query_result, cur):
@@ -33,13 +35,17 @@ def vcf_json(query_result, cur):
             json_line['type'] = 'SNV'
         else:
             json_line['type'] = 'indel'
+        json_line['info'] = vcf_line.info
         json_line['description'] = json_line['type'] + ' ' + vcf_line.ref + ' -> ' + vcf_line.alt
         json_line['reference_allele'] = vcf_line.ref
+        json_line['uniqueID'] = str(vcf_line.experiment_id) + ''.join(random.choice(string.ascii_uppercase + string.digits)
+                                                                for x in range(5))
         json_line['alternate_allele'] =vcf_line.alt
         json_line['experiment'] = vcf_line.experiment_id
         snpeff = vcf_lib.get_snpeff(vcf_line.info)
         json_line['genes'] = list(vcf_lib.get_genes(snpeff))
         mutations = list(vcf_lib.get_mutations(snpeff))
+        json_line['mutations'] = mutations
         #FORMAT: [gene]p.[wildtype][pos][mutant]([Transcript])
         mutation_nums = [vcf_psql.get_AA_pos(x.split('p.')[1].split('(')[0]) for x in mutations]
 
@@ -48,6 +54,7 @@ def vcf_json(query_result, cur):
         json_line['cosmic_overlap'] = ", ".join([generate_cosmic_description(*x) for x in cosmic_mutations])
         json_line['ref_allele_cnt'] = vcf_line.ref_cnt
         json_line['alt_allele_cnt'] = vcf_line.alt_cnt
+
 
         track_json['features'].append(json_line)
 

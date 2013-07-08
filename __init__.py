@@ -61,7 +61,7 @@ curl -i http://127.0.0.1:5000/JBrowse/features/chr7?start=123615\&end=208824\&ty
 
         results = query_psql(chr, start, end, experiment_ids, cur)
 
-
+        print results
         return vcf_json(results, cur)
     #elif type == 'transcript':
 

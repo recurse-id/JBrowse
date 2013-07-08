@@ -13,6 +13,11 @@ return declare( JBrowsePlugin,
 
         // do anything you need to initialize your plugin here
         console.log( "vcf_webserv_store plugin starting" );
+        browser.registerTrackType({
+            type:                 'JBrowse/View/Track/HTMLVariants',
+            defaultForStoreTypes: [ 'vcf_webserv_store/Store/SeqFeature/VcfWebservStore' ],
+            label: 'vcf_webserv'
+        });
 
     }
 });

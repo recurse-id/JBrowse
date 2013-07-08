@@ -1,0 +1,8 @@
+div.cosmic {
+    position:absolute;
+    height: 10px;
+    background-repeat: repeat-x;
+    cursor: pointer;
+    z-index: 10;
+    background-color: #ff0000;
+}
