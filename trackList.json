@@ -1,0 +1,182 @@
+{
+    "formatVersion": 1, 
+    "trackMetadata": {
+        "filterFacets": [
+            "patient", 
+            "experiment", 
+            "technique", 
+            "tissuetype", 
+            "prep"
+
+        ], 
+        "sources": [
+            {
+                "type": "csv", 
+                "url": "myTrackMetaData.csv"
+            }
+        ]
+    }, 
+    "trackSelector": {
+        "displayColumns": [
+            "key", 
+            "patient", 
+            "experiment", 
+            "technique", 
+            "tissuetype", 
+            "prep"
+        ], 
+        "type": "Faceted"
+    }, 
+    "tracks": [
+        {
+            "baseUrl": "http://204.14.157.21/jsrv/JBrowse/", 
+            "compress": 0, 
+            "key": "REST Track for transcript info", 
+            "label": "transcript_info", 
+            "storeClass": "JBrowse/Store/SeqFeature/REST", 
+            "style": {
+                "className": "transcript", 
+                "subfeatureClasses": {
+                    "CDS": "transcript-CDS", 
+                    "exon": "exon", 
+                    "five_prime_UTR": "est", 
+                    "mRNA": "transcript-exon", 
+                    "three_prime_UTR": "est"
+                }
+            }, 
+            "subfeatures": 1, 
+            "type": "JBrowse/View/Track/HTMLFeatures", 
+            "urlTemplate": ""
+        }, 
+	{
+            "baseUrl": "http://204.14.157.21/jsrv/JBrowse/",
+            "query": {
+	    	     "type": "vcf",
+		     "experiment_id": "8_10"
+		     },
+	    "compress": 0,
+            "key": "REST_track_vcf_8_10",
+            "label": "vcf_8_10",
+            "storeClass": "vcf_webserv_store/Store/SeqFeature/VcfWebservStore",
+            "hooks":{
+	    	 "modify": (function (track, feature, featDiv){
+		 	     if (feature.get("cosmic_overlap") != ""){
+			        var num = feature.get("cosmic_overlap").split(",").length;
+				featDiv.className+= " cosmic ";
+				featDiv.style.height = num * 7 + "px";
+			     }
+    			   })
+	    	},	    
+	    "style":{
+	    },
+            "type": "JBrowse/View/Track/HTMLFeatures",
+            "urlTemplate": ""
+        },
+        {
+            "key": "dbsnp_137_hg19", 
+            "label": "dbsnp_137_hg19", 
+            "storeClass": "JBrowse/Store/SeqFeature/VCFTabix", 
+            "tbiUrlTemplate": "scratch/annotations/dbsnp_137.hg19.vcf.gz.tbi", 
+            "type": "JBrowse/View/Track/HTMLVariants", 
+            "urlTemplate": "scratch/annotations/dbsnp_137.hg19.vcf.gz"
+        }, 
+        {
+            "compress": 0, 
+            "key": "all_simple_amplfication", 
+            "label": "all_simple_amplification", 
+            "phase": null, 
+            "style": {
+                "className": "feature"
+            }, 
+            "subfeatures": null, 
+            "type": "FeatureTrack", 
+            "urlTemplate": "tracks/all_simple_amplification/{refseq}/trackData.json"
+        }, 
+        {
+            "compress": 0, 
+            "key": "all_simple_loss", 
+            "label": "all_simple_loss", 
+            "phase": null, 
+            "style": {
+                "className": "feature"
+            }, 
+            "subfeatures": null, 
+            "type": "FeatureTrack", 
+            "urlTemplate": "tracks/all_simple_loss/{refseq}/trackData.json"
+        }, 
+        {
+            "compress": 0, 
+            "key": "cov_mask_low_cov_union_depth", 
+            "label": "cov_mask_low_cov_union_depth", 
+            "phase": null, 
+            "style": {
+                "className": "feature"
+            }, 
+            "subfeatures": null, 
+            "type": "FeatureTrack", 
+            "urlTemplate": "tracks/cov_mask_low_cov_union_depth/{refseq}/trackData.json"
+        }, 
+        {
+            "compress": 0, 
+            "key": "cov_mask_low_cov_union_mapq", 
+            "label": "cov_mask_low_cov_union_mapq", 
+            "phase": null, 
+            "style": {
+                "className": "feature"
+            }, 
+            "subfeatures": null, 
+            "type": "FeatureTrack", 
+            "urlTemplate": "tracks/cov_mask_low_cov_union_mapq/{refseq}/trackData.json"
+        }, 
+        {
+            "chunkSize": 20000, 
+            "key": "DNA", 
+            "label": "DNA", 
+            "type": "SequenceTrack", 
+            "urlTemplate": "seq/{refseq_dirpath}/{refseq}-"
+        }, 
+        {
+            "compress": 0, 
+            "key": "Gencode v15", 
+            "label": "gencode.v15", 
+            "phase": null, 
+            "style": {
+                "className": "transcript", 
+                "subfeatureClasses": {
+                    "CDS": "transcript-CDS", 
+                    "exon": "exon", 
+                    "five_prime_UTR": "est", 
+                    "mRNA": "transcript-exon", 
+                    "three_prime_UTR": "est"
+                }
+            }, 
+            "subfeatures": 1, 
+            "type": "FeatureTrack", 
+            "urlTemplate": "tracks/gencode.v15.v3/{refseq}/trackData.json"
+        }, 
+ 	{
+            "key": "RebiopZurAcZCRB2 tumor_post_tx bam",
+            "label": "RebiopZurAcZCRB2 tumor_post_tx bam",
+            "metadata": {
+                "patient": "RebiopZurAcZCRB2",
+                "prep": "truseq",
+                "tissuetype": "tumor_post_tx"
+            },
+            "storeClass": "JBrowse/Store/SeqFeature/BAM",
+            "type": "JBrowse/View/Track/Alignments2",
+            "urlTemplate": "scratch/jstjohn/RebiopZurAcZCRB2/RebiopZurAcZCRB2_TumorPostTx_RNA_TruSeqRnaStrandedRiboMinusV2_STAR.sorted.rg.mkdup.bam"
+        }, 
+	{
+            "key": "MilPat1_DNA_ExomeAgilentV5TruSeqWGA_Tumor bam",
+            "label": "MilPat1_DNA_ExomeAgilentV5TruSeqWGA_Tumor bam",
+            "metadata": {
+                "patient": "MilPat1",
+                "prep": "DNA_ExomeAgilentV5TruSeqWGA",
+                "tissuetype": "Tumor"
+            },
+            "storeClass": "JBrowse/Store/SeqFeature/BAM",
+            "type": "JBrowse/View/Track/SNPCoverage",
+            "urlTemplate": "/scratch/s3_data/patient-data.ctig.com/MilPat1/Tumor/DNA_ExomeAgilentV5TruSeqWGA/Mapped/iSAAC_v0.1/sorted.bam"
+        }
+    ]
+}
