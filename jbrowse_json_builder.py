@@ -45,11 +45,10 @@ def vcf_json(query_result, cur):
         snpeff = vcf_lib.get_snpeff(vcf_line.info)
         json_line['genes'] = list(vcf_lib.get_genes(snpeff))
         mutations = list(vcf_lib.get_mutations(snpeff))
-        json_line['mutations'] = mutations
-        #FORMAT: [gene]p.[wildtype][pos][mutant]([Transcript])
-        mutation_nums = [vcf_psql.get_AA_pos(x.split('p.')[1].split('(')[0]) for x in mutations]
+        json_line['mutations'] = mutations   #FORMAT: [gene]p.[wildtype][pos][mutant]([Transcript])
 
-        cosmic_mutations = vcf_psql.get_cosmic_overlapping_mutations(json_line['genes'], mutation_nums, cur)
+
+        cosmic_mutations = vcf_psql.get_cosmic_overlapping_mutations(json_line['info'], cur)
 
         json_line['cosmic_overlap'] = ", ".join([generate_cosmic_description(*x) for x in cosmic_mutations])
         json_line['ref_allele_cnt'] = vcf_line.ref_cnt
