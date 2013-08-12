@@ -48,15 +48,15 @@
             "type": "JBrowse/View/Track/HTMLFeatures", 
             "urlTemplate": ""
         }, 
-	{
+	    {
             "baseUrl": "http://204.14.157.21/jsrv/JBrowse/",
             "query": {
 	    	     "type": "vcf",
-		     "experiment_id": "8_10"
+		     "experiment_id": "65_69"
 		     },
 	    "compress": 0,
-            "key": "REST_track_vcf_8_10",
-            "label": "vcf_8_10",
+            "key": "REST_track_vcf_65_69",
+            "label": "vcf_65_69",
             "storeClass": "vcf_webserv_store/Store/SeqFeature/VcfWebservStore",
             "hooks":{
 	    	 "modify": (function (track, feature, featDiv){
@@ -175,8 +175,8 @@
                 "tissuetype": "Tumor"
             },
             "storeClass": "JBrowse/Store/SeqFeature/BAM",
-            "type": "JBrowse/View/Track/SNPCoverage",
-            "urlTemplate": "/scratch/s3_data/patient-data.ctig.com/MilPat1/Tumor/DNA_ExomeAgilentV5TruSeqWGA/Mapped/iSAAC_v0.1/sorted.bam"
+            "type": "JBrowse/View/Track/Alignments2",
+            "urlTemplate": "scratch/s3_data/patient-data.ctig.com/MilPat1/Tumor/DNA_ExomeAgilentV5TruSeqWGA/Mapped/BWA_CTIG_2013_6_17/MilPat1_Tumor_DNA_ExomeAgilentV5TruSeqWGA.sorted.rgid.rmdup.bam"
         }
     ]
 }

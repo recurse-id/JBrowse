@@ -18,44 +18,48 @@ def generate_cosmic_description(mutation_id, mutation_aa, count):
 def vcf_json(query_result, cur):
     """
     parse query result and build json for JBrowse
-    :param query_result: list of namedtuples of psql query result: [namedtuple('vcf_line', ['contig', 'pos', 'ref',
-    'alt', 'info', 'filter', 'rsid', 'experiment_id', 'ref_cnt', 'alt_cnt'])]
+    :param query_result: list of namedtuples of psql query result: vcf_line = namedtuple('vcf_line', ['chrom', 'pos', 'rsid', 'ref', 'alt', 'ref_allele_cnt', 'alt_allele_cnt',
+                                       'genes', 'amino_acid_change', 'exon_number', 'cosmic_overlapping_mutations', 'protein_domain' ])
     :return: json that JBrowse can recognize
     """
     track_json = dict()
     track_json['features'] = []
+
     for vcf_line in query_result:
         json_line = dict()
-        vcf_line.rsid
-        if vcf_line.rsid:
-
+        if vcf_line.rsid and vcf_line.rsid != '.':
+            print vcf_line.rsid
             json_line['name'] = vcf_line.rsid
         json_line['start'] = vcf_line.pos
         if len(vcf_line.alt) ==  len(vcf_line.ref) == 1:
             json_line['type'] = 'SNV'
         else:
             json_line['type'] = 'indel'
-        json_line['info'] = vcf_line.info
         json_line['description'] = json_line['type'] + ' ' + vcf_line.ref + ' -> ' + vcf_line.alt
         json_line['reference_allele'] = vcf_line.ref
-        json_line['uniqueID'] = str(vcf_line.experiment_id) + ''.join(random.choice(string.ascii_uppercase + string.digits)
+        json_line['uniqueID'] =  ''.join(random.choice(string.ascii_uppercase + string.digits)
                                                                 for x in range(5))
+
+
+        json_line['cosmic_overlap'] = vcf_line.cosmic_overlapping_mutations
+        json_line['protein_domain'] = vcf_line.protein_domain
+
         json_line['alternate_allele'] =vcf_line.alt
-        json_line['experiment'] = vcf_line.experiment_id
-        snpeff = vcf_lib.get_snpeff(vcf_line.info)
-        json_line['genes'] = list(vcf_lib.get_genes(snpeff))
-        mutations = list(vcf_lib.get_mutations(snpeff))
-        json_line['mutations'] = mutations   #FORMAT: [gene]p.[wildtype][pos][mutant]([Transcript])
+
+        json_line['genes'] = vcf_line.genes
 
 
-        cosmic_mutations = vcf_psql.get_cosmic_overlapping_mutations(json_line['info'], cur)
 
-        json_line['cosmic_overlap'] = ", ".join([generate_cosmic_description(*x) for x in cosmic_mutations])
-        json_line['ref_allele_cnt'] = vcf_line.ref_cnt
-        json_line['alt_allele_cnt'] = vcf_line.alt_cnt
+        print json_line
+        #cosmic_mutations = vcf_line.get_cosmic_overlapping_mutations
+
+        #json_line['cosmic_overlap'] = ", ".join([generate_cosmic_description(*x) for x in cosmic_mutations])
+        json_line['ref_allele_cnt'] = vcf_line.ref_allele_cnt
+        json_line['alt_allele_cnt'] = vcf_line.alt_allele_cnt
 
 
         track_json['features'].append(json_line)
+        print json_line
 
 
     return json.dumps(track_json)

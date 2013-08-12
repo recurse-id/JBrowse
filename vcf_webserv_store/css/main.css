@@ -1,4 +1,5 @@
 /* in genome.css @import url("plugins/vcf_webserv_store/css/main.css");*/
+@import url("experiment_picker.css");
 div.cosmic {
     position:absolute;
     height: 10px;

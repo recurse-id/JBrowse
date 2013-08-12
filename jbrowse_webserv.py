@@ -177,6 +177,6 @@ def get_feature_data(ref_seq):
 
 
 if __name__ == '__main__':
-    #logging.basicConfig(stream=sys.stderr)
+    logging.basicConfig(stream=sys.stderr)
     app.run()
 
